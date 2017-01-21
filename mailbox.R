@@ -51,13 +51,10 @@ readmsg <- function(fname) {
 }
 #Création du dataframe
 mdf <- do.call(rbind, lapply(mailfiles, readmsg))
-View(mdf)
 tableau <- as.data.frame(mdf)
-View(tableau)
 #Le tableau est sale alors on ne récupère que les colonnes qui nous intéressent et on expurge les infos inutiles avec sqldf
 library(sqldf)
 tableau2 <- sqldf("select V1, V2, V3, V4 from tableau")
-
 colnames(tableau2) <- c("Source", "Target", "Date", "Sujet")
 #Quelques étapes de nettoyage des colonnes du tableau. Pour ce faire on passe par un tableau secondaire identique
 tableau_temp <- tableau2
@@ -79,7 +76,6 @@ tableau<-tableau_temp
 tableau<-tableau %>% unnest(Target=strsplit(Target, ","))
 #Là je remets les colonnes noeuds en premier pour que ce soit plus simple
 tableau<-sqldf("select Source, Target, Date, Sujet from tableau")
-
 #crée le fichier gexf
 #simplification du tableau
 #tableau$Source <- trimws(tableau$Source)
