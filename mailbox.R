@@ -88,3 +88,17 @@ edges_reseau <- as.data.frame(get.edges(reseau, c(1:ecount(reseau))))
 #écriture du réseau au format gexf, lisible dans Gephi
 write.gexf(nodes = nodes_reseau, edges = edges_reseau, defaultedgetype = "directed", output ="reseau.gexf")
 
+
+# Quelques stats sur le tableau
+comptage_exp <- sqldf('select Source, count(*) from tableau where Source is not null group by Source ORDER BY count(*) DESC')
+names(comptage_exp)[names(comptage_exp)=="count(*)"] <- "Nombre"
+comptage_dest <- sqldf('select Target, count(*) from tableau where Target is not null group by Target ORDER BY count(*) DESC')
+names(comptage_dest)[names(comptage_dest)=="count(*)"] <- "Nombre"
+
+# Graph des expéditeurs
+g <- ggplot(comptage_exp, aes(x = reorder(Source, Nombre), y= Nombre, fill = Nombre))
+g + geom_bar(stat = "identity") + coord_flip() + ggtitle("Expéditeurs classés par nombre d'envois") + xlab("Expéditeurs") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=14, color="black"))
+
+# Graph des destinataires
+g <- ggplot(comptage_dest, aes(x = reorder(Target, Nombre), y= Nombre, fill = Nombre))
+g + geom_bar(stat = "identity") + coord_flip() + ggtitle("Destinataires classés par nombre d'envois") + xlab("Expéditeurs") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=14, color="black"))
