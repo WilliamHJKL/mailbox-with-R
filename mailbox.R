@@ -17,6 +17,11 @@ library(tm.plugin.mail)
 #Sous OSX, cela marche bien mais sous Win7, le path est problématique à régler
 setwd("/Users/maison/Documents/essai_mail")
 
+#Si votre boite mail est un fichier mbox, il est nécessaire de transformer cette boite en liste de fichiers eml
+#Décommenter les lignes ci-après et utiliser la fonction convert_mbox_eml
+# mbf <- "nom_du_fichier_mbox"
+# convert_mbox_eml(mbf, "efichier_eml")
+
 #lecture des mail
 library(tm)
 maildir <- setwd("/Users/maison/Documents/essai_mail")
