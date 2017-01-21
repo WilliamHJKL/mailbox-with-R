@@ -9,7 +9,11 @@ Tested on OSX.
 
 # Example of a generated graph
 
+Graph exported to Gephi
 ![](https://framapic.org/1GuGVF6DD7Gw/3ObZ5oMeD2Eb)
+
+Stats on From: field
+![](https://framapic.org/3xlIo9Faqpgz/Vl7xc3pidkpF)
 
 # Planned features and roadmap
 
