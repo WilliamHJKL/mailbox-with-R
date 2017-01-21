@@ -7,6 +7,10 @@ It then creates a gexf files, allowing you to display a network in Gephi, for in
 
 Tested on OSX.
 
+# Example of a generated graph
+
+![](https://framapic.org/1GuGVF6DD7Gw/3ObZ5oMeD2Eb)
+
 # Planned features and roadmap
 
 - Nodes cleansing and clustering of nodes (similar entities)
@@ -17,7 +21,5 @@ Tested on OSX.
 
 Due to some misinterpretation of the filepath by Win7, the script doesn't seem to work for the moment on this configuration (see issues).
 
-# Example of a generated graph
 
-![](https://framapic.org/1GuGVF6DD7Gw/3ObZ5oMeD2Eb)
 
