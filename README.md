@@ -7,7 +7,7 @@ It then creates a gexf files, allowing you to display a network in Gephi, for in
 
 Tested on OSX.
 
-# Example of a generated graph
+# Example of generated graphs
 
 Graph exported to Gephi
 ![](https://framapic.org/1GuGVF6DD7Gw/3ObZ5oMeD2Eb)
