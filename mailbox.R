@@ -111,9 +111,5 @@ names(domain_exp)[names(domain_exp)=="count(*)"] <- "Nombre"
 g_domain_exp <- ggplot(domain_exp, aes(x = reorder(Domain, Nombre), y= Nombre, fill = Nombre))
 g_domain_exp + geom_bar(stat = "identity") + coord_flip() + ggtitle("Domain/nombre d'envois") + xlab("Domaine") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=8, color="black"))
 
-#Playing with dates
-
-tableau3 <- tableau
-tableau3$Date <-strptime(tableau3$Date, format("%d/%m/%Y"), tz = "UTC")
 
 
