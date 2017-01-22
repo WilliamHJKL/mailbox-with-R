@@ -1,4 +1,4 @@
-#Refactoring the code
+
 #Install libraries
 install.packages("tm.plugin.mail")
 install.packages("tm")
@@ -18,7 +18,7 @@ library(rgexf)
 library(tm.plugin.mail)
 library(ggplot2)
 library(lubridate)
-#dSetup working directory
+#Setup working directory
 #With OSX, it does work but setting up a path under Win7 can be a pain in the a.s
 setwd("/Users/maison/Documents/essai_mail")
 
@@ -56,13 +56,11 @@ readmsg <- function(fname) {
 #Creation of the dataframe
 mdf <- do.call(rbind, lapply(mailfiles, readmsg))
 tableau <- as.data.frame(mdf)
-#Table is messy, so we collect only the useful columns with sqldf
-library(sqldf)
-tableau2 <- sqldf("select V1, V2, V3, V4 from tableau")
-
-colnames(tableau2) <- c("Source", "Target", "Date", "Sujet")
+#Table is messy, so we collect only the useful columns
+tableau <- tableau[1:4]
+colnames(tableau) <- c("Source", "Target", "Date", "Sujet")
 #Some cleansing on the table
-tableau_temp <- tableau2
+tableau_temp <- tableau
 tableau_temp$Target <- gsub('.*\\"',"", tableau_temp$Target)
 tableau_temp$Target <- gsub("*>.*", "", tableau_temp$Target)
 tableau_temp$Target <- gsub(".*<","", tableau_temp$Target)
@@ -79,12 +77,9 @@ tableau<-tableau_temp
 #Split multivalued cells with tidyr 
 tableau<-tableau %>% unnest(Target=strsplit(Target, ","))
 #reorder columns
-tableau<-sqldf("select Source, Target, Date, Sujet from tableau")
-
+tableau <- tableau[c("Source", "Target", "Date", "Sujet")]
 #delete empty rows
-
 tableau <- tableau[!apply(tableau, 1, function(x) any(x=="")),]
-
 #creation of the gexf file
 #simplification of the table
 reseau<-simplify(graph.data.frame(tableau, directed =TRUE))
