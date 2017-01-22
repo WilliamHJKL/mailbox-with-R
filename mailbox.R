@@ -100,3 +100,11 @@ g + geom_bar(stat = "identity") + coord_flip() + ggtitle("Expéditeurs classés 
 # Graph based on To field
 g <- ggplot(comptage_dest, aes(x = reorder(Target, Nombre), y= Nombre, fill = Nombre))
 g + geom_bar(stat = "identity") + coord_flip() + ggtitle("Destinataires classés par nombre d'envois") + xlab("Expéditeurs") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=14, color="black"))
+
+# Graph based on Domain
+domain_exp <- separate(data = comptage_exp, col = Source, into = c("ID_exp", "Domain"), sep = "@")
+domain_exp<- sqldf('select Domain, count(*) from domain_exp where Domain is not null group by Domain ORDER BY count(*) DESC')
+names(domain_exp)[names(domain_exp)=="count(*)"] <- "Nombre"
+g_domain_exp <- ggplot(domain_exp, aes(x = reorder(Domain, Nombre), y= Nombre, fill = Nombre))
+g_domain_exp + geom_bar(stat = "identity") + coord_flip() + ggtitle("Domain/nombre d'envois") + xlab("Domaine") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=8, color="black"))
+
