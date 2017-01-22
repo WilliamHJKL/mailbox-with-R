@@ -1,3 +1,4 @@
+#Refactoring the code
 #Install libraries
 install.packages("tm.plugin.mail")
 install.packages("tm")
@@ -7,6 +8,7 @@ install.packages("dplyr")
 install.packages("rgexf")
 install.packages("igraph")
 install.packages("ggplot2")
+install.packages("lubridate")
 library(sqldf)
 library(tidyr)
 library(dplyr)
@@ -15,6 +17,7 @@ library(igraph)
 library(rgexf)
 library(tm.plugin.mail)
 library(ggplot2)
+library(lubridate)
 #dSetup working directory
 #With OSX, it does work but setting up a path under Win7 can be a pain in the a.s
 setwd("/Users/maison/Documents/essai_mail")
@@ -30,6 +33,7 @@ maildir <- setwd("/Users/maison/Documents/essai_mail")
 mailfiles <- dir(maildir, full.names=FALSE)
 Encoding(mailfiles)  <- "UTF-8"
 #Read mails one by one via a function "readmsg" that parses senders, subjects, timestamps and receivers
+
 readmsg <- function(fname) {
   l <- readLines(fname) 
   origin <- grep('^From:', l, value=TRUE)
@@ -55,6 +59,7 @@ tableau <- as.data.frame(mdf)
 #Table is messy, so we collect only the useful columns with sqldf
 library(sqldf)
 tableau2 <- sqldf("select V1, V2, V3, V4 from tableau")
+
 colnames(tableau2) <- c("Source", "Target", "Date", "Sujet")
 #Some cleansing on the table
 tableau_temp <- tableau2
@@ -75,8 +80,11 @@ tableau<-tableau_temp
 tableau<-tableau %>% unnest(Target=strsplit(Target, ","))
 #reorder columns
 tableau<-sqldf("select Source, Target, Date, Sujet from tableau")
+
 #delete empty rows
+
 tableau <- tableau[!apply(tableau, 1, function(x) any(x=="")),]
+
 #creation of the gexf file
 #simplification of the table
 reseau<-simplify(graph.data.frame(tableau, directed =TRUE))
@@ -94,12 +102,12 @@ comptage_dest <- sqldf('select Target, count(*) from tableau where Target is not
 names(comptage_dest)[names(comptage_dest)=="count(*)"] <- "Nombre"
 
 # Graph based on From field
-g <- ggplot(comptage_exp, aes(x = reorder(Source, Nombre), y= Nombre, fill = Nombre))
-g + geom_bar(stat = "identity") + coord_flip() + ggtitle("Expéditeurs classés par nombre d'envois") + xlab("Expéditeurs") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=14, color="black"))
+g_compt_exp <- ggplot(comptage_exp, aes(x = reorder(Source, Nombre), y= Nombre, fill = Nombre))
+g_compt_exp + geom_bar(stat = "identity") + coord_flip() + ggtitle("Exp/nombre d'envois") + xlab("Expéditeurs") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=8, color="black"))
 
 # Graph based on To field
-g <- ggplot(comptage_dest, aes(x = reorder(Target, Nombre), y= Nombre, fill = Nombre))
-g + geom_bar(stat = "identity") + coord_flip() + ggtitle("Destinataires classés par nombre d'envois") + xlab("Expéditeurs") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=14, color="black"))
+g_compt_dest <- ggplot(comptage_dest, aes(x = reorder(Target, Nombre), y= Nombre, fill = Nombre))
+g_compt_dest + geom_bar(stat = "identity") + coord_flip() + ggtitle("Dest/nombre d'envois") + xlab("Expéditeurs") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=8, color="black"))
 
 # Graph based on Domain
 domain_exp <- separate(data = comptage_exp, col = Source, into = c("ID_exp", "Domain"), sep = "@")
@@ -107,4 +115,10 @@ domain_exp<- sqldf('select Domain, count(*) from domain_exp where Domain is not 
 names(domain_exp)[names(domain_exp)=="count(*)"] <- "Nombre"
 g_domain_exp <- ggplot(domain_exp, aes(x = reorder(Domain, Nombre), y= Nombre, fill = Nombre))
 g_domain_exp + geom_bar(stat = "identity") + coord_flip() + ggtitle("Domain/nombre d'envois") + xlab("Domaine") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=8, color="black"))
+
+#Playing with dates
+
+tableau3 <- tableau
+tableau3$Date <-strptime(tableau3$Date, format("%d/%m/%Y"), tz = "UTC")
+
 
