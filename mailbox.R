@@ -1,4 +1,3 @@
-
 #Install libraries
 install.packages("tm.plugin.mail")
 install.packages("tm")
