@@ -43,7 +43,7 @@ readmsg <- function(fname) {
   date <- gsub("Date:", "", date)
   subj <- grep("^Subject:", l, value=TRUE)
   subj <- gsub("Subject:", "", subj)
-  # some lousy test to parse text in mail but iy doesn't work for the moment
+  # some lousy tests to parse text in mail but it doesn't work for the moment
   #text1 <- grep("^Content-Transfer-Encoding: quoted-printable", l, value=TRUE)
   #text1 <- gsub("Content-Transfer-Encoding: quoted-printable", "", text1)
   #text1 <- tail(l, 3)[1]
@@ -55,7 +55,7 @@ readmsg <- function(fname) {
 #Creation of the dataframe
 mdf <- do.call(rbind, lapply(mailfiles, readmsg))
 tableau <- as.data.frame(mdf)
-#Table is messy, so we collect only the useful columns
+#Table is messy, so we only collect the useful columns
 tableau <- tableau[1:4]
 colnames(tableau) <- c("Source", "Target", "Date", "Sujet")
 #Some cleansing on the table
@@ -110,5 +110,5 @@ names(domain_exp)[names(domain_exp)=="count(*)"] <- "Nombre"
 g_domain_exp <- ggplot(domain_exp, aes(x = reorder(Domain, Nombre), y= Nombre, fill = Nombre))
 g_domain_exp + geom_bar(stat = "identity") + coord_flip() + ggtitle("Domain/nombre d'envois") + xlab("Domaine") + ylab("Envois") + theme(plot.title = element_text(size = 16, face = "bold", family = "Calibri"), axis.title=element_text(face="bold", size=8, color="black"))
 
-
+#To Do : some works on temporality. Coming soon
 
