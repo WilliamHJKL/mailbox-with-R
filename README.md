@@ -20,6 +20,15 @@ Stats on From: field
 ![](https://framapic.org/3xlIo9Faqpgz/Vl7xc3pidkpF)
 ![](https://framapic.org/xhb7PFWlwDXQ/Vlb0cOB7HhmY)
 
+# How to use
+ - Indicate your path to mails at this line : 
+ `maildir <- setwd("/Users/maison/Documents/essai_mail")`
+ 
+ - Launch the script in RStudio
+ 
+ - SHP Files for displaying and plotting IP addresses (Public Domain) should be found at this URL : 
+ [Natural Earth](http://www.naturalearthdata.com/downloads/)
+![](http://www.naturalearthdata.com/wp-content/uploads/2009/08/NEV-Logo-color.png)
 
 
 # Planned features and roadmap
