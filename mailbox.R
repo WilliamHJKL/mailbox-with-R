@@ -1,5 +1,5 @@
 #Install libraries
-source("/Users/maison/Desktop/install_packages.R")
+source("install_packages.R")
 #load libraries
 library("NLP")
 library("tm")
