@@ -22,7 +22,7 @@ Stats on From: field
 
 # How to use
  - Indicate your path to mails at this line : 
- `maildir <- setwd("/Users/maison/Documents/essai_mail")`
+ `maildir <- setwd("YOUR_PATH_TO_THE_MAILFILES")`
  
  - Launch the script in RStudio
  
