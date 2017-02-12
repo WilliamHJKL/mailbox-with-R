@@ -1,5 +1,5 @@
 #Install libraries
-source("install_packages.R")
+source("/Users/maison/Desktop/install_packages.R")
 #load libraries
 library("NLP")
 library("tm")
@@ -175,7 +175,7 @@ plot(worldmap)
 #We generate a HTML report for all the stats
 #Contrib by @Arkel_
 
-HTMLStart(outdir = "/Users/maison/Documents/essai_mail", file="tableau", extension="html",echo=FALSE, HTMLframe = TRUE)
+HTMLStart(outdir = maildir, file="tableau", extension="html",echo=FALSE, HTMLframe = TRUE)
 HTML.title(sprintf('Analysis of %s mails', length(mailfiles2)), HR=1)
 HTML.title(sprintf("Count per date of %s mails", nrow(tableau_date1)), HR=3)
 p <- ggplot(data=tableau_date2, aes(x=date, y=nb)) + geom_bar(stat="identity", fill="steelblue") + geom_text(aes(label=nb), color="white", size=3, vjust=2) + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
