@@ -59,13 +59,6 @@ readmsg <- function(fname) {
   date <- gsub("Date:", "", date)
   subj <- grep("^Subject:", l, value=TRUE)
   subj <- gsub("Subject:", "", subj)
-  # some lousy tests to parse text in mail but it doesn't work for the moment
-  #text1 <- grep("^Content-Transfer-Encoding: quoted-printable", l, value=TRUE)
-  #text1 <- gsub("Content-Transfer-Encoding: quoted-printable", "", text1)
-  #text1 <- tail(l, 3)[1]
-  #text2 <- tail(l, 3)[2]
-  #return(c(subj, date, text1, text2))
-  #return(c(origin, dest, date))
   return(c(origin, dest, date, subj))
 }
 #Creation of the dataframe
