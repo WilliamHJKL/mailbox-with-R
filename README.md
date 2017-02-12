@@ -30,6 +30,8 @@ Stats on From: field
  [Natural Earth](http://www.naturalearthdata.com/downloads/)
 ![](http://www.naturalearthdata.com/wp-content/uploads/2009/08/NEV-Logo-color.png)
 
+The script prompts you at some point to choose the shp file
+
 
 # Planned features and roadmap
 
