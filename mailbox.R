@@ -1,13 +1,6 @@
 #Install libraries
-install.packages("tm.plugin.mail")
-install.packages("tm")
-install.packages("sqldf")
-install.packages("tidyr")
-install.packages("dplyr")
-install.packages("rgexf")
-install.packages("igraph")
-install.packages("ggplot2")
-install.packages("lubridate")
+source("install_packages.R")
+#load libraries
 library("NLP")
 library("tm")
 library("tm.plugin.mail")
@@ -36,9 +29,12 @@ library("rgdal")
 library("gridExtra")
 library("EML")
 library("SnowballC")
+library("rgexf")
+library("igraph")
+library("tidyr")
 #Setup working directory
 #With OSX, it does work but setting up a path under Win7 can be a pain in the a.s
-maildir <- setwd("YOUR_PATH_TO_MAILFILES")
+maildir <- setwd("YOUR_PATH_TO_THE_MAILFILES")
 
 #If you have a mailbox file instead of eml files
 #Uncomment the following lines to convert the mb file to a list of eml files
@@ -180,13 +176,13 @@ while(y < nrow(tableau_ip2)){
 }
 country_ip2 <- sqldf("select count(mynames) as nb, mynames as pays from country_ip1 group by pays order by nb desc")
 
-worldmap <- readShapeSpatial(file.choose(YOUR_SHP_FILE_WITH_THE_MAP),proj4string=CRS("+proj=longlat"))
+worldmap <- readShapeSpatial(file.choose(),proj4string=CRS("+proj=longlat"))
 plot(worldmap)
 
 #We generate a HTML report for all the stats
 #Contrib by @Arkel_
 
-HTMLStart(outdir = "YOUR_OUTPUT_DIRECTORY", file="tableau", extension="html",echo=FALSE, HTMLframe = TRUE)
+HTMLStart(outdir = "/Users/maison/Documents/essai_mail", file="tableau", extension="html",echo=FALSE, HTMLframe = TRUE)
 HTML.title(sprintf('Analysis of %s mails', length(mailfiles2)), HR=1)
 HTML.title(sprintf("Count per date of %s mails", nrow(tableau_date1)), HR=3)
 p <- ggplot(data=tableau_date2, aes(x=date, y=nb)) + geom_bar(stat="identity", fill="steelblue") + geom_text(aes(label=nb), color="white", size=3, vjust=2) + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
